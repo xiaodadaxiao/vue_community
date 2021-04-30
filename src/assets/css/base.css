@@ -1,0 +1,17 @@
+/* 全局样式表 */
+html,
+body,
+#app {
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  /* overflow: scroll; */
+  overflow-x: hidden;
+  /* min-width: 1366px; */
+  background-color: #eee;
+}
+
+.number {
+  /* color: red; */
+  font-size: 22px !important;
+}
