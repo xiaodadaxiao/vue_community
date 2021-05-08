@@ -9,6 +9,11 @@ import "./plugins/elementUI";
 //基础样式
 import "assets/css/base.css";
 
+// highlight.js代码高亮插件
+//import Highlight from "utils/highlight";
+//Vue.use(Highlight);
+import "utils/highlight";
+
 Vue.config.productionTip = false;
 
 new Vue({

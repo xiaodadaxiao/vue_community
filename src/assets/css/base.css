@@ -15,3 +15,7 @@ body,
   /* color: red; */
   font-size: 22px !important;
 }
+/* 富文本编辑器高度 */
+.ql-editor {
+  height: 300px !important;
+}

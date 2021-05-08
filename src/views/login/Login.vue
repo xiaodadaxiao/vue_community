@@ -13,17 +13,17 @@
           label-position="left"
           :rules="loginFormRules"
         >
-          <el-form-item prop="username">
+          <el-form-item prop="userEmail">
             <el-input
-              v-model="formData.username"
+              v-model="formData.userEmail"
               prefix-icon="el-icon-user-solid"
               placeholder="请输入用户名"
             ></el-input>
           </el-form-item>
           <!-- 密码-->
-          <el-form-item prop="password">
+          <el-form-item prop="userPassword">
             <el-input
-              v-model="formData.password"
+              v-model="formData.userPassword"
               prefix-icon="el-icon-unlock"
               placeholder="请输入密码"
               show-password
@@ -45,25 +45,27 @@
 </template>
 
 <script>
+/* 网络请求 */
+import { login } from "network/login";
+
 export default {
   data() {
     return {
       //表单数据对象
-      formData: { username: "123", password: "123456" },
+      formData: { userEmail: "12356@qq.com", userPassword: "123456" },
       //表单验证规则
       loginFormRules: {
-        //用户名验证规则
-        username: [
-          { required: true, message: "请输入用户名", trigger: "blur" },
+        //用户邮箱验证规则
+        userEmail: [
+          { required: true, message: "邮箱地址不能为空", trigger: "blur" },
           {
-            min: 3,
-            max: 10,
-            message: "长度需在 3 到 10 个字符",
-            trigger: "blur",
+            type: "email",
+            message: "请输入正确的邮箱地址",
+            trigger: ["blur", "change"],
           },
         ],
         //密码验证规则
-        password: [
+        userPassword: [
           { required: true, message: "请输入密码", trigger: "blur" },
           {
             min: 6,
@@ -82,40 +84,26 @@ export default {
       //显示加载
       this.loading = true;
       //进行预验证，再执行回调函数
-
-      this.$refs.loginFormRef.validate(async (valid) => {
+      this.$refs.loginFormRef.validate((valid) => {
         //console.log(valid);
-        if (!valid) return;
-        //进行请求
-        //let { data } = await this.$http.post("login", this.loginForm);
-        // console.log(data);
-        // console.log(data.meta.status);
-        // if (data.meta.status == 200) {
-        //   console.log(data);
-        setTimeout(() => {
-          this.loading = false;
-          //登录成功弹窗
-          // this.$message({
-          //   message: "登录成功",
-          //   type: "success",
-          // });
-
-          this.$router.push("/home");
-        }, 1500);
-        return;
-        //登录成功弹窗
-        this.$message({
-          message: "登录成功",
-          type: "success",
-        });
-        //将后台传过来的token保存到sessionStorage
-        // window.sessionStorage.setItem("token", data.data.token);
-        //跳转到后台home
-
-        this.$router.push("/home");
-        // } else {
-        //   this.$message.error("登录失败！请检查用户名或密码");
-        // }
+        if (!valid) {
+          console.log("表单验证失败");
+          return (this.loading = false);
+        }
+        //发送请求
+        login(this.formData.userEmail, this.formData.userPassword)
+          .then((res) => {
+            this.loading = false;
+            console.log(res);
+            this.$router.push("/home");
+            // //登录成功弹窗
+            this.$message.success("登录成功！");
+          })
+          .catch((err) => {
+            this.loading = false;
+            console.log(err);
+            this.$message.error("登录失败！");
+          });
       });
     },
   },

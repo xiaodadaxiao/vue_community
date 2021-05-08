@@ -14,25 +14,25 @@
           :rules="registerFormRules"
         >
           <!-- 邮箱 -->
-          <el-form-item prop="email">
+          <el-form-item prop="userEamil">
             <el-input
-              v-model="formData.email"
+              v-model="formData.userEamil"
               prefix-icon="el-icon-message"
               placeholder="请输入邮箱"
             ></el-input>
           </el-form-item>
           <!-- 用户名 -->
-          <el-form-item prop="username">
+          <el-form-item prop="userName">
             <el-input
-              v-model="formData.username"
+              v-model="formData.userName"
               prefix-icon="el-icon-user-solid"
               placeholder="请输入用户名"
             ></el-input>
           </el-form-item>
           <!-- 密码-->
-          <el-form-item prop="password">
+          <el-form-item prop="userPassword">
             <el-input
-              v-model="formData.password"
+              v-model="formData.userPassword"
               prefix-icon="el-icon-unlock"
               placeholder="请输入密码"
               show-password
@@ -67,11 +67,16 @@ export default {
   data() {
     return {
       //表单数据对象
-      formData: { eamil: "", username: "", password: "", confirmPassword: "" },
+      formData: {
+        userEamil: "",
+        userName: "",
+        userPassword: "",
+        confirmPassword: "",
+      },
       //表单验证规则
       registerFormRules: {
         //邮箱验证规则
-        email: [
+        userEamil: [
           { required: true, message: "邮箱地址不能为空", trigger: "blur" },
           {
             type: "email",
@@ -80,7 +85,7 @@ export default {
           },
         ],
         //用户名验证规则
-        username: [
+        userName: [
           { required: true, message: "请输入用户名", trigger: "blur" },
           {
             min: 3,
@@ -90,7 +95,7 @@ export default {
           },
         ],
         //密码验证规则
-        password: [
+        userPassword: [
           { required: true, message: "请输入密码", trigger: "blur" },
           {
             min: 6,

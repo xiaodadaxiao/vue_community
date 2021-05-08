@@ -3,6 +3,9 @@ function resolve(dir) {
   return path.join(__dirname, dir); //path.join(__dirname)设置绝对路径
 }
 module.exports = {
+  devServer: {
+    port: 8080, // 端口
+  },
   chainWebpack: (config) => {
     config.resolve.alias
       //set第一个参数：设置的别名，第二个参数：设置的路径
@@ -11,7 +14,8 @@ module.exports = {
       .set("components", resolve("./src/components"))
       .set("views", resolve("./src/views"))
       .set("network", resolve("./src/network"))
-      .set("common", resolve("./src/common"));
+      .set("common", resolve("./src/common"))
+      .set("utils", resolve("./src/utils"));
   },
   css: {
     loaderOptions: {

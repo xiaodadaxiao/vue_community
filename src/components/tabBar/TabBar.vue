@@ -10,7 +10,8 @@
           :sm="{ span: 14, offset: 2 }"
           :xs="24"
         >
-          <img src="~assets/img/logo/logo.png" />
+          <!-- <img src="~assets/img/logo/logo.png" class="logo" @click="goHome" /> -->
+          <img class="logo" @click="goHome" src="~assets/img/logo/logo2.png" />
         </el-col>
       </el-row>
     </el-col>
@@ -52,7 +53,13 @@ export default {
   data() {
     return {};
   },
-  methods: {},
+  methods: {
+    //点击返回首页
+    goHome() {
+      if (this.$route.path == "/home") return;
+      this.$router.push("/home");
+    },
+  },
 };
 </script>
 
@@ -99,5 +106,8 @@ export default {
   .right {
     display: flex;
   }
+}
+.logo {
+  cursor: pointer;
 }
 </style>
