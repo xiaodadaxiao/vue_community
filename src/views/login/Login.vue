@@ -47,6 +47,8 @@
 <script>
 /* 网络请求 */
 import { login } from "network/login";
+/* 跳转函数 */
+import { goPath } from "utils/routerRecord";
 
 export default {
   data() {
@@ -69,8 +71,8 @@ export default {
           { required: true, message: "请输入密码", trigger: "blur" },
           {
             min: 6,
-            max: 15,
-            message: "长度需在 6 到 15 个字符",
+            max: 12,
+            message: "长度需在 6 到 12 个字符",
             trigger: "blur",
           },
         ],
@@ -98,11 +100,16 @@ export default {
             this.$router.push("/home");
             // //登录成功弹窗
             this.$message.success("登录成功！");
+            goPath();
+            this.$store.commit("login", true);
           })
           .catch((err) => {
             this.loading = false;
             console.log(err);
-            this.$message.error("登录失败！");
+            this.$message.error("登录失败！模拟通过登录");
+            /* 模拟成功 */
+            goPath();
+            this.$store.commit("login", true);
           });
       });
     },

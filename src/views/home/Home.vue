@@ -1,17 +1,13 @@
 <template>
-  <div>
-    <!-- 头部 -->
-    <tab-bar class="tab_bar" />
+  <div >
     <!-- 中间 -->
-    <el-row class="row">
+    <el-row class="row" >
       <!-- 核心区 -->
       <el-col :sm="{ span: 12, offset: 5 }" xs:="24" class="center">
         <!-- 标题 -->
         <!-- <home-title /> -->
         <!-- 列表 -->
-        <!-- <home-list3 /> -->
         <home-list/>
-        <!-- <div class="test"></div> -->
       </el-col>
       <!-- 右侧区域 -->
       <el-col :sm="{ span: 5, offset: 1 }" :xs="0" class="right">
@@ -20,13 +16,14 @@
         <home-hot class="home-hot" />
       </el-col>
     </el-row>
-    <!-- 底部 -->
+     
+    
   </div>
+  
 </template>
 
 <script>
-// 顶部菜单
-import TabBar from "components/tabBar/TabBar";
+
 //home列表组件
 import HomeList from "./homeComponents/HomeList";
 //home标题组件
@@ -44,27 +41,19 @@ export default {
     //点击发帖子
     addArticle(){
       this.$router.push('/publish')
-    }
+    },
+  
   },
-  components: { TabBar, HomeList, HomeTitle, HomeHot},
+  components: { HomeList, HomeTitle, HomeHot},
 };
 </script>
 
 <style lang="less" scoped>
-.tab_bar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 9;
-}
+
 .row {
-  width: 100%;
-  margin-top: 66px;
   div {
     height: 100%;
   }
-
   .center {
     background-color: #fff;
     padding-bottom: 10px;

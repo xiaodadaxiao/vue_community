@@ -1,13 +1,15 @@
 /* 全局样式表 */
 html,
-body,
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #eee;
+  font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
+    "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+}
 #app {
   padding: 0;
   margin: 0;
-  height: 100%;
-  /* overflow: scroll; */
-  overflow-x: hidden;
-  /* min-width: 1366px; */
   background-color: #eee;
 }
 
@@ -15,7 +17,8 @@ body,
   /* color: red; */
   font-size: 22px !important;
 }
-/* 富文本编辑器高度 */
+/* 富文本编辑器 */
 .ql-editor {
   height: 300px !important;
+  font-size: 20px !important;
 }

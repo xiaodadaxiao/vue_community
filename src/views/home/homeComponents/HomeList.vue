@@ -14,8 +14,11 @@
         </div>
         <!-- 图片-->
         <el-row class="list-img" :span="8">
-          <el-col :xs="{ span: 22, offset: 1 }" :sm="10">
-            <img src="~assets/img/dog.jpg" alt="" />
+          <el-col class="imgCol" :xs="{ span: 22, offset: 1 }" :sm="10">
+            <!-- <img v-lazy="tempImgSrc" /> -->
+            <img
+              v-lazy="'https://inews.gtimg.com/newsapp_bt/0/13499108424/1000'"
+            />
           </el-col>
         </el-row>
 
@@ -51,6 +54,7 @@
       :total="20"
       :page-size="1"
       :pager-count="5"
+      @current-change="pageChange"
     />
   </div>
 </template>
@@ -62,19 +66,34 @@ export default {
     return {
       isImg1: true,
       isImg2: false,
+      // tempImgSrc: require("assets/img/dog2.jpg"),
+      tempImgSrc: "https://inews.gtimg.com/newsapp_bt/0/13499108424/1000",
     };
   },
-
+  mounted() {},
+  destroyed() {
+    this.$bus.$off();
+  },
   methods: {
     goArticle() {
       this.$router.push("/article/123");
+    },
+    //点击页码
+    pageChange(page) {
+      console.log(page);
+      //触发事件总线，回到顶部
+      this.$bus.$emit("scrollTop");
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
+.list_contain {
+  // background-color: #fff;
+}
 .box {
+  // background-color: #fff;
 }
 .list {
   padding: 2%;
