@@ -4,16 +4,21 @@
     <el-row class="row" >
       <!-- 核心区 -->
       <el-col :sm="{ span: 12, offset: 5 }" xs:="24" class="center">
-        <!-- 标题 -->
-        <!-- <home-title /> -->
+        <el-menu default-active="1" mode="horizontal" class="homeTitle">
+              <el-menu-item index="1">首 页</el-menu-item>
+              <el-menu-item index="2">讨 论</el-menu-item>
+              <el-menu-item index="3">闲 置</el-menu-item>
+              <el-menu-item index="4">失物招领</el-menu-item> 
+        </el-menu>
         <!-- 列表 -->
-        <home-list/>
+        <home-list />
       </el-col>
       <!-- 右侧区域 -->
       <el-col :sm="{ span: 5, offset: 1 }" :xs="0" class="right">
-        <el-button type="primary" @click="addArticle">发帖子</el-button>
+        <!-- <el-button type="primary" @click="addArticle">发帖子</el-button> -->
+        <el-button type="primary" icon="el-icon-edit" @click="addArticle"></el-button>
         <!-- 热门帖子 -->
-        <home-hot class="home-hot" />
+        <home-hot  class="home-hot" />
       </el-col>
     </el-row>
      
@@ -26,8 +31,6 @@
 
 //home列表组件
 import HomeList from "./homeComponents/HomeList";
-//home标题组件
-import HomeTitle from "./homeComponents/HomeTitle";
 //home热门帖子
 import HomeHot from "./homeComponents/HomeHot";
 
@@ -35,16 +38,21 @@ import HomeHot from "./homeComponents/HomeHot";
 export default {
   props: {},
   data() {
-    return {};
+    return {
+      
+    };
+  },
+  created(){
+
   },
   methods: {
+
     //点击发帖子
     addArticle(){
       this.$router.push('/publish')
     },
-  
   },
-  components: { HomeList, HomeTitle, HomeHot},
+  components: { HomeList, HomeHot},
 };
 </script>
 
@@ -65,12 +73,14 @@ export default {
 .text {
   text-align: center;
 }
+.homeTitle{
+  
+}
+.is-active{
+  color: @color-blue !important;
+}
 .home-hot {
   margin: 15px 5px;
 }
-.test {
-  border: 1px solid red;
-  width: 100%;
-  height: 100px;
-}
+
 </style>

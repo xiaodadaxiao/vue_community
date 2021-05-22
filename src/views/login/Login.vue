@@ -54,7 +54,7 @@ export default {
   data() {
     return {
       //表单数据对象
-      formData: { userEmail: "12356@qq.com", userPassword: "123456" },
+      formData: { userEmail: "", userPassword: "" },
       //表单验证规则
       loginFormRules: {
         //用户邮箱验证规则
@@ -89,7 +89,6 @@ export default {
       this.$refs.loginFormRef.validate((valid) => {
         //console.log(valid);
         if (!valid) {
-          console.log("表单验证失败");
           return (this.loading = false);
         }
         //发送请求
@@ -97,19 +96,23 @@ export default {
           .then((res) => {
             this.loading = false;
             console.log(res);
-            this.$router.push("/home");
-            // //登录成功弹窗
+            if (res.status !== 200) {
+              return this.$message.error("登陆失败");
+            }
+
+            // 登录成功弹窗
             this.$message.success("登录成功！");
-            goPath();
+            //本地存储token
+            localStorage.setItem("token", res.data.token);
+            //更改登录状态
             this.$store.commit("login", true);
+            //路由跳转
+            goPath();
           })
           .catch((err) => {
             this.loading = false;
             console.log(err);
-            this.$message.error("登录失败！模拟通过登录");
-            /* 模拟成功 */
-            goPath();
-            this.$store.commit("login", true);
+            this.$message.error("登录失败！");
           });
       });
     },

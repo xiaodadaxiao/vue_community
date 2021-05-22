@@ -1,5 +1,3 @@
-//是否是生产环境
-const isProduction = false;
 const path = require("path"); //引入path模块
 //引入compression-webpack-plugin插件 用于打包
 const CompressionWebpackPlugin = require("compression-webpack-plugin");
@@ -24,29 +22,24 @@ module.exports = {
       .set("common", resolve("./src/common"))
       .set("utils", resolve("./src/utils"));
   },
-  configureWebpack: (config) => {
-    /* 生产模式 */
-    if (isProduction) {
-      // 使用cdn
-      config.externals = {
-        vue: "Vue",
-        "vue-router": "VueRouter",
-        vuex: "Vuex",
-        "element-ui": "ELEMENT",
-        "vue-quill-editor": "VueQuillEditor",
-      };
-      // 打包生产.gz包
-      config.plugins.push(
-        new CompressionWebpackPlugin({
-          filename: "[path].gz[query]",
-          algorithm: "gzip",
-          test: /\.js$|\.html$|\.css/, // 匹配的文件名
-          threshold: 10240, // 文件超过10k，进行gzip压缩
-          minRatio: 0.8,
-          deleteOriginalAssets: false, // 是否删除原文件
-        })
-      );
-    }
+  configureWebpack: {
+    // externals: {
+    //   vue: "Vue",
+    //   "vue-router": "VueRouter",
+    //   vuex: "Vuex",
+    //   "element-ui": "ELEMENT",
+    //   "vue-quill-editor": "VueQuillEditor",
+    // },
+    plugins: [
+      // new CompressionWebpackPlugin({
+      //   filename: "[path].gz[query]",
+      //   algorithm: "gzip",
+      //   test: /\.js$|\.html$|\.css/, // 匹配的文件名
+      //   threshold: 10240, // 文件超过10k，进行gzip压缩
+      //   minRatio: 0.8,
+      //   deleteOriginalAssets: false, // 是否删除原文件
+      // }),
+    ],
   },
   css: {
     //css loader

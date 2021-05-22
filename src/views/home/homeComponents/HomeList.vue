@@ -1,58 +1,43 @@
 <template>
   <!-- 文章列表 -->
   <div class="list_contain">
-    <div class="box" v-for="item in 10">
-      <div class="list" v-if="isImg1">
+    <div class="box" v-for="item in list" :key="item.id">
+      <div class="list">
         <!-- 标题 -->
-        <div class="list-title" @click="goArticle">
-          国家统计局称 2020 年我国人口继续保持增长，你怎么看？国家统计局称
-          2020年我国人口继续保持增长，你怎么看？
+        <div class="list-title" @click="goArticle(item.id)">
+          {{ item.messageTitle }}
         </div>
         <!-- 文本 -->
         <div class="list-text">
-          1976年9月6日13时36分，当苏联叛逃飞行员把飞机停稳后，其油箱内剩余的燃油，最多能再维持飞行30秒，可谓凶险异常，而他的这一举动，也被称为“震惊世界的苏军三大叛逃事件”之一。1976年9月6日13时36分，当苏联叛逃飞行员把飞机停稳后，其油箱内剩余的燃油，最多能再维持飞行30秒，可谓凶险异常，而他的这一举动，也被称为“震惊世界的苏军三大叛逃事件”之一。
+          {{ item.messageContent }}
         </div>
         <!-- 图片-->
-        <el-row class="list-img" :span="8">
+        <el-row class="list-img" :span="8" v-if="item.urls.length > 0">
           <el-col class="imgCol" :xs="{ span: 22, offset: 1 }" :sm="10">
-            <!-- <img v-lazy="tempImgSrc" /> -->
-            <img
-              v-lazy="'https://inews.gtimg.com/newsapp_bt/0/13499108424/1000'"
-            />
+            <!-- <img v-lazy="item.urls[0]" /> -->
+            <el-image class="image" :src="item.urls[0]" lazy></el-image>
           </el-col>
         </el-row>
-
         <!-- 操作栏 -->
         <div class="operation">
-          <span class="author"><i class="el-icon-user-solid" />黎明</span>
-          <span class="time">2021-05-15</span>
-          <span class="comment"><i class="el-icon-chat-dot-round" />220</span>
-        </div>
-      </div>
-      <div class="list" v-else>
-        <!-- 标题 -->
-        <div class="list-title">
-          国家统计局称 2020 年我国人口继续保持增长，你怎么看？国家统计局称
-          2020年我国人口继续保持增长，你怎么看？
-        </div>
-        <!-- 文本 -->
-        <div class="list-text">
-          1976年9月6日13时36分，当苏联叛逃飞行员把飞机停稳后，其油箱内剩余的燃油，最多能再维持飞行30秒，可谓凶险异常，而他的这一举动，也被称为“震惊世界的苏军三大叛逃事件”之一。1976年9月6日13时36分，当苏联叛逃飞行员把飞机停稳后，其油箱内剩余的燃油，最多能再维持飞行30秒，可谓凶险异常，而他的这一举动，也被称为“震惊世界的苏军三大叛逃事件”之一。
-        </div>
-        <!-- 操作栏 -->
-        <div class="operation">
-          <span class="author"><i class="el-icon-user-solid" />黎明</span>
-          <span class="time">2021-05-15</span>
-          <span class="comment"><i class="el-icon-chat-dot-round" />220</span>
+          <!-- 作者 -->
+          <span class="author"
+            ><i class="el-icon-user-solid" />{{ item.user.userName }}</span
+          >
+          <!-- 时间 -->
+          <span class="time">{{ item.messageAddTime | dateFormat }}</span>
+          <!-- 评论数 -->
+          <span class="comment"><i class="el-icon-chat-dot-round" />0</span>
         </div>
       </div>
     </div>
     <!-- 页码 -->
     <el-pagination
       small
+      :hide-on-single-page="true"
       layout="prev, pager, next"
-      :total="20"
-      :page-size="1"
+      :total="total"
+      :page-size="10"
       :pager-count="5"
       @current-change="pageChange"
     />
@@ -60,29 +45,61 @@
 </template>
 
 <script>
+/* 导入工具函数 */
+import { getText, getImgUrls } from "utils/filter";
+/*
+ 网络请求函数
+ */
+import { requestHomeList } from "network/home.js";
+
 export default {
   props: {},
   data() {
     return {
-      isImg1: true,
-      isImg2: false,
-      // tempImgSrc: require("assets/img/dog2.jpg"),
-      tempImgSrc: "https://inews.gtimg.com/newsapp_bt/0/13499108424/1000",
+      pageNumber: 1,
+      total: 0,
+      list: [],
     };
   },
-  mounted() {},
-  destroyed() {
-    this.$bus.$off();
+  created() {
+    //请求首页数据
+    this.requestHomeList();
   },
   methods: {
-    goArticle() {
-      this.$router.push("/article/123");
+    goArticle(id) {
+      this.$router.push("/article/" + id);
     },
     //点击页码
-    pageChange(page) {
-      console.log(page);
-      //触发事件总线，回到顶部
-      this.$bus.$emit("scrollTop");
+    pageChange(pageNumber) {
+      this.pageNumber = pageNumber;
+      //网络请求
+      this.requestHomeList(pageNumber);
+    },
+    /* 网络请求 */
+    requestHomeList() {
+      requestHomeList(this.pageNumber)
+        .then((res) => {
+          console.log(res);
+          if (res.Status != "200") {
+            return this.$message.error("请求帖子数据错误");
+          }
+          //进行数据处理
+          res.data.forEach((item) => {
+            //获得图片集合
+            item.urls = getImgUrls(item.messageContent);
+            //获得纯文本
+            item.messageContent = getText(item.messageContent);
+          });
+          console.log(res.data);
+          this.list = res.data;
+          this.total = res.total;
+          //触发事件总线，回到顶部
+          this.$bus.$emit("scrollTop");
+        })
+        .catch((err) => {
+          console.log(err);
+          return this.$message.error("error:请求帖子数据错误");
+        });
     },
   },
 };
@@ -107,7 +124,7 @@ export default {
 
 .list-title {
   cursor: pointer;
-  font-size: 22px;
+  font-size: 21px;
   font-weight: 600;
   /* 限制行 */
   text-overflow: -o-ellipsis-lastline;
@@ -120,13 +137,14 @@ export default {
 .list-title:hover {
   transition: all 0.2s;
   color: @color-blue;
-  font-size: 24px;
+  font-size: 23px;
   -webkit-line-clamp: 2;
 }
 /* 正文 */
 .list-text {
-  font-size: 16px;
+  font-size: 15px;
   line-height: 1.6;
+  color: #121212;
   /* 限制行 */
   text-overflow: -o-ellipsis-lastline;
   overflow: hidden;
@@ -134,12 +152,12 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  padding: 5px 0;
+  padding: 3px 0;
 }
 /* 图片区 */
 .list-img {
   height: 100%;
-  img {
+  .image {
     margin-top: 3px;
     width: 100%;
     height: 190px;

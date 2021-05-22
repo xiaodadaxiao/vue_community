@@ -6,7 +6,7 @@ export function savePath(path) {
   if (path == "/login" || path == "/register") {
     return;
   }
-  console.log(path);
+  //console.log(path);
   //存到本地
   //localStorage.setItem("path", path);
   //存到vuex
@@ -15,4 +15,5 @@ export function savePath(path) {
 //跳转路由，根据本地记录的path跳转
 export function goPath() {
   router.push(store.state.path);
+  //console.log("goPath前往：" + store.state.path);
 }

@@ -63,6 +63,8 @@
 </template>
 
 <script>
+/* 网络请求 */
+import { register } from "network/register";
 export default {
   data() {
     return {
@@ -90,7 +92,7 @@ export default {
           {
             min: 3,
             max: 10,
-            message: "长度需在 2 到 12 个字符",
+            message: "长度需在 3 到 10 个字符",
             trigger: "blur",
           },
         ],
@@ -100,7 +102,7 @@ export default {
           {
             min: 6,
             max: 15,
-            message: "长度需在 6 到 12 个字符",
+            message: "长度需在 6 到 15 个字符",
             trigger: "blur",
           },
         ],
@@ -110,7 +112,7 @@ export default {
             validator: (rule, value, callback) => {
               if (value === "") {
                 callback(new Error("请再次输入密码"));
-              } else if (value !== this.formData.password) {
+              } else if (value !== this.formData.userPassword) {
                 callback(new Error("两次输入密码不一致!"));
               } else {
                 callback();
@@ -123,31 +125,29 @@ export default {
     };
   },
   methods: {
-    //点击登录按钮
+    //点击注册按钮
     register() {
       //进行预验证，再执行回调函数
       this.$refs.registerFormRef.validate(async (valid) => {
-        //console.log(valid);
         if (!valid) return;
-        //进行请求
-        //let { data } = await this.$http.post("register", this.registerForm);
-        // console.log(data);
-        // console.log(data.meta.status);
-        // if (data.meta.status == 200) {
-        //   console.log(data);
-
-        //登录成功弹窗
-        this.$message({
-          message: "注册成功",
-          type: "success",
-        });
-        //将后台传过来的token保存到sessionStorage
-        // window.sessionStorage.setItem("token", data.data.token);
-        //跳转到后台home
-        this.$router.push("/login");
-        // } else {
-        //   this.$message.error("登录失败！请检查用户名或密码");
-        // }
+        //网络请求
+        register(
+          this.formData.userEamil,
+          this.formData.userName,
+          this.formData.userPassword
+        )
+          .then((res) => {
+            console.log(res);
+            if (res.status !== 200) {
+              return this.$message.error("注册失败");
+            }
+            this.$message.success("注册成功");
+            this.$router.replace("/login");
+          })
+          .catch((err) => {
+            console.log(err);
+            this.$message.error("注册失败");
+          });
       });
     },
   },

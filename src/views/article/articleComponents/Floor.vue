@@ -1,41 +1,39 @@
 <template>
-  <!-- 单个评论的组件 -->
-  <div class="commentItem">
-    <!-- 评论者信息 -->
-    <div class="commentInfo">
-      <el-avatar :size="40" :src="userImgUrl" />
-      <span class="author">键盘侠</span>
+  <!-- 单个评论的组件(一层楼) -->
+  <div class="floorBox">
+    <!-- 评论者信息（层主） -->
+    <div class="floorInfo">
+      <el-avatar :size="30" :src="userImgUrl" />
+      <span class="floorAuthor">键盘侠</span>
+      <span class="">回复 : @<span class="byReplyAuthor">蜘蛛侠</span> </span>
     </div>
     <!-- 评论者内容 -->
-    <p class="commentValue">
+    <p class="floorValue">
       是不是除了特斯拉其他车都不配拥有名字的啊是不是除了特斯拉其他车都不配拥有名字的啊,都不配拥有名字的啊是不是都不配拥有名字的啊是不是
     </p>
-    <!-- 回复谁的原文 -->
-    <div class="oldCommentBox">
-      <span>回复 @ </span><a class="oldAuthor">黎明：</a>
-      <div>大学生薅肯德基系统漏洞的羊毛获刑</div>
-    </div>
     <!-- 底部回复、点赞 按钮 、时间 -->
-    <div class="operate">
+    <div class="floorOperate">
       <span
-        class="perateItem"
+        class="floorOperateItem"
         @click="giveLike"
         :class="{ current: isDianzhan }"
-        >点赞({{ giveLikeNum }})</span
-      ><span
-        class="perateItem"
-        @click="showInput"
-        :class="{ current: isShowReply }"
+        ><i class="iconfont">&#xe600;</i>({{ giveLikeNum }})</span
+      >
+      <span
+        class="floorOperateItem"
+        @click="showFloorInput"
+        :class="{ current: isShowInputBox }"
         ><i class="el-icon-edit-outline" /> 回 复</span
       >
       <span class="time">2021-5-8 18:38</span>
     </div>
-
     <!-- 回复框 -->
-    <div v-show="isShowReply" class="replyBox">
+    <div v-show="isShowInputBox" class="inputBox">
       <el-input type="textarea" v-model="replyValue" />
       <el-button>回复</el-button>
     </div>
+    <!-- 插槽，用于插入楼中楼 -->
+    <slot></slot>
   </div>
 </template>
 
@@ -51,7 +49,7 @@ export default {
       //点赞个数
       giveLikeNum: 10,
       //是否显示评论框
-      isShowReply: false,
+      isShowInputBox: false,
       //回复这条评论的内容
       replyValue: "",
     };
@@ -65,68 +63,62 @@ export default {
       this.isDianzhan = !this.isDianzhan;
     },
     //点击显示评论框
-    showInput() {
+    showFloorInput() {
       if (!this.$store.state.isLogin) {
         return this.$message.error("请先登录");
       }
-      this.isShowReply = !this.isShowReply;
+      this.isShowInputBox = !this.isShowInputBox;
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-// 评论的item
-.commentItem {
+// 楼层的box
+.floorBox {
   padding: 10px;
-  border-top: 1px solid #ccc;
+  // border: 1px solid red;
 }
-// 评论的信息（名字、时间）
-.commentInfo {
+// 楼层的信息（名字、时间）
+.floorInfo {
   display: flex;
   span {
     margin-right: 6px;
+    margin-top: 6px;
   }
-  //评论作者
-  .author {
+  //楼层作者
+  .floorAuthor {
     color: @color-blue;
     font-weight: 600;
-    margin-top: 6px;
+    cursor: pointer;
+  }
+  //被回复者
+  .byReplyAuthor {
+    color: @color-blue;
+    opacity: 0.7;
     cursor: pointer;
   }
 }
-// 评论内容
-.commentValue {
+// 楼层内容
+.floorValue {
   font-size: 14px;
-  padding: 10px 0;
-  line-height: 1.7;
+  // padding: 10px 0;
+  line-height: 1.3;
 }
-//旧评论
-.oldCommentBox {
-  color: #959595;
-  margin-left: 10px;
-  border-left: 5px solid #ccc;
-  padding-left: 4px;
-  font-size: 14px;
-}
-.oldAuthor {
-  color: #a0cfff;
-  font-weight: 560;
-  cursor: pointer;
-}
-
 // 操作栏 点赞、点击显示评论框按钮
-.operate {
+.floorOperate {
   margin-top: 10px;
   font-size: 14px;
   color: #959595;
-}
-.perateItem {
-  cursor: pointer;
-  margin-right: 10px;
-}
-.current {
-  color: @color-blue;
+  //每个操作item
+  .floorOperateItem {
+    cursor: pointer;
+    margin-right: 10px;
+  }
+  //操作选中状态（点赞、评论）
+  .current {
+    color: @color-blue;
+  }
 }
 // 评论时间
 .time {
@@ -135,7 +127,7 @@ export default {
   padding-top: 4px;
 }
 //回复输入框和按钮区域
-.replyBox {
+.inputBox {
   margin-top: 10px;
 }
 </style>

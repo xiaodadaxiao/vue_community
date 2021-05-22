@@ -22,13 +22,14 @@ import {
   DropdownMenu,
   DropdownItem,
   Pagination,
-  PageHeader,
   Upload,
-  Backtop,
   Card,
   Avatar,
   Tabs,
   TabPane,
+  Image,
+  Breadcrumb,
+  BreadcrumbItem,
 } from "element-ui";
 
 //注册
@@ -47,13 +48,14 @@ Vue.use(Dropdown);
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(Pagination);
-Vue.use(PageHeader);
 Vue.use(Upload);
-Vue.use(Backtop);
 Vue.use(Card);
 Vue.use(Avatar);
 Vue.use(Tabs);
 Vue.use(TabPane);
+Vue.use(Image);
+Vue.use(Breadcrumb);
+Vue.use(BreadcrumbItem);
+
 //全局挂载弹窗组件
 Vue.prototype.$message = Message;
-//Vue.prototype.$confirm = MessageBox.confirm;

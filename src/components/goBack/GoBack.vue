@@ -1,6 +1,6 @@
 <template>
   <div class="goBack">
-    <span class="gobackBtn" v-show="showBtn" @click="goBack"
+    <span class="gobackBtn" v-show="showBtn" @click="goBack(0)"
       ><i class="el-icon-upload2"></i
     ></span>
   </div>
@@ -25,26 +25,25 @@ export default {
       //是否显示返回顶部
       this.showBtn = scrollTop > 200;
     },
-    goBack() {
+    goBack(top) {
       var timer = setInterval(function() {
-        let osTop =
-          document.documentElement.scrollTop || document.body.scrollTop;
-        let ispeed = Math.floor(-osTop / 3);
-        document.documentElement.scrollTop = document.body.scrollTop =
-          osTop + ispeed;
-        this.isTop = true;
-        if (osTop === 0) {
-          clearInterval(timer);
+        if (
+          document.documentElement.scrollTop <= top &&
+          document.body.scrollTop <= top
+        ) {
+          return clearInterval(timer);
         }
-      }, 10);
+        document.documentElement.scrollTop += -300;
+        document.body.scrollTop += -350;
+      }, 30);
     },
   },
   mounted() {
     //监听滚动事件
     window.addEventListener("scroll", this.showbtn, true);
     //监听事件总线的返回顶部事件
-    this.$bus.$on("scrollTop", () => {
-      this.goBack();
+    this.$bus.$on("scrollTop", (top = 0) => {
+      this.goBack(top);
     });
   },
 };

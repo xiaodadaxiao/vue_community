@@ -61,7 +61,8 @@ export function addEmojiIcon() {
   //得到创建的emoji元素
   var emojiDom = document.querySelector(".ql-emoji ");
   var Front = document.createElement("i"); //创建标签元素
-  Front.className = "icon iconfont icon-biaoqing"; //新增class属性
+  Front.className = "iconfont "; //新增class属性
+  Front.innerHTML = "&#xe703;"; //表情属性（表情）
   //添加到emoji按钮下
   emojiDom.appendChild(Front);
 }

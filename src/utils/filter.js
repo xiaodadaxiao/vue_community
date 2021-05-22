@@ -18,6 +18,7 @@ export function getImgUrls(html) {
   let imgReg = /<img.*?(?:>|\/>)/gi; //匹配图片中的img标签
   let srcReg = /src=[\'\"]?([^\'\"]*)[\'\"]?/i; // 匹配图片中的src
   let arr = html.match(imgReg); //筛选出所有的img
+  if (!arr) return urls;
   for (let i = 0; i < arr.length; i++) {
     let src = arr[i].match(srcReg);
     // 获取图片地址
@@ -31,4 +32,19 @@ export function srcToLazy(html) {
   let reg = /(<img.*)(src)([^>]*>)/gi;
   html = html.replace(reg, "$1" + "v-lazy" + "$3");
   return html;
+}
+//时间转化格式
+//时间格式处理
+export function dateFormat(dateNum) {
+  const dt = new Date(dateNum);
+  const year = dt.getFullYear();
+  //月份 不足两位用 0 补全
+  const mouth = (dt.getMonth() + 1 + "").padStart(2, "0");
+  //日 不足两位用 0 补全
+  const date = (dt.getDate() + "").padStart(2, "0");
+  const hh = (dt.getHours() + "").padStart(2, "0");
+  const mm = (dt.getMinutes() + "").padStart(2, "0");
+  const ss = (dt.getSeconds() + "").padStart(2, "0");
+
+  return `${year}-${mouth}-${date} ${hh}:${mm}:${ss}`;
 }

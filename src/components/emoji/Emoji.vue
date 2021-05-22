@@ -34,7 +34,7 @@ export default {
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: #ccc;
+  background-color: #fff;
   display: flex;
   flex-wrap: wrap;
 }

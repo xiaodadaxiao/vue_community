@@ -10,13 +10,15 @@ import TabBar from "components/tabBar/TabBar";
 import GoBack from "components/goBack/GoBack";
 export default {
   components: { TabBar, GoBack },
-  methods: {},
+  created() {
+    //获取用户登录状态
+    this.$store.dispatch("initUserStatus");
+  },
 };
 </script>
 <style scoped>
 #app {
   height: 100vh;
-  /* overflow: hidden; */
 }
 /* 固定定位，脱离文档 */
 .app_tab_bar {
@@ -26,10 +28,8 @@ export default {
   top: 0;
   z-index: 9;
 }
-/*  */
+
 .app_router_view {
-  /* height: calc(100vh - 64px); */
-  /* overflow: scroll; */
   margin-top: 64px;
 }
 </style>

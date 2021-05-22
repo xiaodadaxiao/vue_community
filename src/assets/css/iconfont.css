@@ -1,9 +1,16 @@
+/* 阿里图标库 */
 @font-face {
   font-family: "iconfont"; /* Project id 2541805 */
-  src: url('iconfont.woff2?t=1620732515062') format('woff2'),
-       url('iconfont.woff?t=1620732515062') format('woff'),
-       url('iconfont.ttf?t=1620732515062') format('truetype');
+  src: url("//at.alicdn.com/t/font_2541805_qh79fok0yp.woff2?t=1621664782121")
+      format("woff2"),
+    url("//at.alicdn.com/t/font_2541805_qh79fok0yp.woff?t=1621664782121")
+      format("woff"),
+    url("//at.alicdn.com/t/font_2541805_qh79fok0yp.ttf?t=1621664782121")
+      format("truetype");
 }
+/* 
+<i class="iconfont">&#xe703</i>
+*/
 
 .iconfont {
   font-family: "iconfont" !important;
@@ -12,8 +19,3 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-.icon-biaoqing:before {
-  content: "\e703";
-}
-

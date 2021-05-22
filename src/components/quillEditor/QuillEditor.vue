@@ -36,16 +36,14 @@
 <script>
 /* 导入QuillEditor插件 */
 import { quillEditor } from "vue-quill-editor";
-/* 导入vue-quill-editor样式 */
 import "quill/dist/quill.core.css";
 import "quill/dist/quill.snow.css";
 import "quill/dist/quill.bubble.css";
+/* 导入自定义emoji组件 */
 import Emoji from "components/emoji/Emoji";
 /* 设置中文提示、工具栏参数、设置emoji图标 */
 import { addQuillTitle, toolbarOptions, addEmojiIcon } from "./quill-edit.js";
-/* 代码高亮插件 */
-import hljs from "highlight.js";
-import "highlight.js/styles/agate.css"; // 代码高亮风格
+
 //自定义图片上传方法
 const image = function(value) {
   //console.log(value);
@@ -83,11 +81,6 @@ export default {
             container: toolbarOptions, // 工具栏
             handlers: { image, emoji }, //自定义方法
           },
-          syntax: {
-            highlight: (text) => {
-              return hljs.highlightAuto(text).value; // 这里就是代码高亮需要配置的地方
-            },
-          },
         },
       },
     };
@@ -96,7 +89,7 @@ export default {
   methods: {
     //点击发布
     publish() {
-      console.log(this.content);
+      this.$emit("addMessage", this.content);
     },
     // 上传图片前
     beforeUpload(res, file) {
