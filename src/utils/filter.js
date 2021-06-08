@@ -35,7 +35,7 @@ export function srcToLazy(html) {
 }
 //时间转化格式
 //时间格式处理
-export function dateFormat(dateNum) {
+export function dateFormat(dateNum = 0) {
   const dt = new Date(dateNum);
   const year = dt.getFullYear();
   //月份 不足两位用 0 补全
@@ -47,4 +47,14 @@ export function dateFormat(dateNum) {
   const ss = (dt.getSeconds() + "").padStart(2, "0");
 
   return `${year}-${mouth}-${date} ${hh}:${mm}:${ss}`;
+}
+//截取指定长度字符串
+export function getStr(str, len) {
+  if (!str) {
+    return '';
+  } else if (str.length <= len) {
+    return str;
+  }
+  let StrValue = str.substr(0, len);
+  return StrValue + '...';
 }

@@ -48,7 +48,7 @@
 /* 网络请求 */
 import { login } from "network/login";
 /* 跳转函数 */
-import { goPath } from "utils/routerRecord";
+import { goPath } from "router/routerRecord";
 
 export default {
   data() {
@@ -106,6 +106,9 @@ export default {
             localStorage.setItem("token", res.data.token);
             //更改登录状态
             this.$store.commit("login", true);
+            //保存用户信息
+            const {userName,userPicture,userEmail,id} =res.data
+            this.$store.commit("setUserInfo", {userName,userPicture,userEmail,id});
             //路由跳转
             goPath();
           })

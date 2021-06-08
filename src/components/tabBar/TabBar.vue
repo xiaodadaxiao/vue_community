@@ -55,7 +55,7 @@
             <!-- 用户头像 -->
             <el-avatar
               class="userImg"
-              src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
+              :src="$store.state.userInfo.userPicture"
             />
             <!-- 用户菜单 -->
             <el-dropdown-menu slot="dropdown">
@@ -76,16 +76,37 @@
 </template>
 
 <script>
+import {goPath} from 'router/routerRecord'
 export default {
   props: {},
   data() {
-    return {};
+    return {
+      //点击返回首页的节流
+      timer: null,
+    };
+  },
+  created(){
+    //监听退出登陆，执行退出登陆事件
+    //this.$bus.$on('userExit',this.exit);
   },
   methods: {
     //点击返回首页
     goHome() {
-      if (this.$route.path == "/home") return;
-      this.$router.push("/home");
+      if (this.$route.path == "/home") {
+        //如果是重复点击logo，触发事件总线刷新首页数据
+        if (this.isLock) {
+          return;
+        }
+        //上锁，不能频繁点击刷新
+        this.isLock = true;
+        this.$bus.$emit("homeRefresh");
+        setTimeout(() => {
+          //1s后解锁
+          this.isLock = false;
+        }, 1000);
+      } else {
+        this.$router.push("/home");
+      }
     },
     //点击去登录界面
     goLogin() {
@@ -93,18 +114,23 @@ export default {
     },
     //去个人主页
     goUserInfo() {
-      this.$router.push("/userInfo/666");
+      this.$router.push("/userInfo/"+this.$store.state.userInfo.id);
     },
     //去发布页面
     goPublish() {
       this.$router.push("/publish");
     },
+    //点击退出登录
+    exitClick(){
+
+    },
     //退出登录
     exit() {
       this.$store.commit("login", false);
+      this.$store.commit("setUserInfo", {});
       localStorage.removeItem("token");
-
       this.$message("你已退出登录");
+      goPath();
     },
   },
 };
@@ -147,8 +173,6 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     font-family: "Microsoft soft";
-    width: 80%;
-    height: 50%;
   }
 }
 //右边部分

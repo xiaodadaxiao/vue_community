@@ -3,8 +3,12 @@ export default {
   login(state, payload) {
     state.isLogin = payload;
   },
-  ////保存路由
+  //保存路由
   savePath(state, payload) {
     state.path = payload;
+  },
+  //设置用户id
+  setUserInfo(state, payload) {
+    state.userInfo = payload;
   },
 };

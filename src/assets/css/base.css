@@ -7,6 +7,12 @@ body {
   font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
 }
+[ss] {
+  display: none;
+}
+[v-cloak] {
+  display: none;
+}
 /* 导入图标样式 */
 @import url(./iconfont.css);
 #app {
@@ -14,7 +20,9 @@ body {
   margin: 0;
   background-color: #eee;
 }
+/* 导入样式表 */
 
+/* element */
 .number {
   /* color: red; */
   font-size: 22px !important;

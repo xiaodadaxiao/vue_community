@@ -6,11 +6,9 @@ import getters from "./getters";
 Vue.use(Vuex);
 const state = {
   //是否是登录状态
-  isLogin: false || localStorage.getItem("isLogin"),
-  //用户登录id
-  userId: null,
-  //token
-  token: null,
+  isLogin: false,
+  //用户登陆信息
+  userInfo: {},
   //路由地址
   path: "/home",
 };

@@ -22,7 +22,9 @@ module.exports = {
       .set("views", resolve("./src/views"))
       .set("network", resolve("./src/network"))
       .set("common", resolve("./src/common"))
-      .set("utils", resolve("./src/utils"));
+      .set("utils", resolve("./src/utils"))
+      .set("plugins", resolve("./src/plugins"))
+      .set("router", resolve("./src/router"));
   },
   configureWebpack: (config) => {
     /* 生产模式 */
@@ -34,6 +36,7 @@ module.exports = {
         vuex: "Vuex",
         "element-ui": "ELEMENT",
         "vue-quill-editor": "VueQuillEditor",
+        nprogress: "NProgress",
       };
       // 打包生产.gz包
       config.plugins.push(

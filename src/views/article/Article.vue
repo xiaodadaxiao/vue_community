@@ -14,12 +14,12 @@
           <!-- 信息栏 作者 时间 -->
           <div v-show="currentPage==1">
             <span class="author">{{article.userName}}</span>
-            <span class="time">{{article.messageAddTime | dateFormat}}</span>
+            <span class="time"  v-cloak>{{article.messageAddTime | dateFormat}}</span>
           </div> 
             <!-- 文章内容 -->
-          <div class="article-contain" v-html="article.messageContent"  v-show="currentPage==1"/>
+          <div class="article-contain" v-html="$xss(article.messageContent)"  v-show="currentPage==1"/>
           <!-- 评论 -->
-          <article-comment @currentPagechange="currentPagechange"/>
+          <article-comment :articleId="articleId" @currentPagechange="currentPagechange"/>
           
           </el-col>
       </el-row>
@@ -59,10 +59,10 @@ export default {
     },
     //请求文章内容
     getArticle(){
-      console.log(this.articleId);
+      //console.log(this.articleId);
       getArticle(this.articleId)
         .then((res)=>{
-           console.log(res);
+           //console.log(res);
            if(res.status!==200){
              return this.$message.error('请求数据失败');
            }

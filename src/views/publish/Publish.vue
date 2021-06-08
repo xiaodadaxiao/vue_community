@@ -1,6 +1,5 @@
 <template>
 <div>
-     <!-- 顶部tabbar -->
  
       <!-- 中心内容区 -->
       <el-row>

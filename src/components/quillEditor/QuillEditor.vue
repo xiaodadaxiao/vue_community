@@ -4,6 +4,7 @@
     <el-upload
       class="avatar-uploader"
       ref="elupload"
+      accept=".jpg,.jpeg,.png,.bmp,.gif"
       :action="serverUrl"
       :headers="header"
       name="img"
@@ -11,6 +12,7 @@
       :on-success="uploadSuccess"
       :on-error="uploadError"
       :before-upload="beforeUpload"
+      :on-change="uploadChange"
     >
     </el-upload>
     <!-- 表情选择组件 -->
@@ -95,6 +97,22 @@ export default {
     beforeUpload(res, file) {
       //显示加载
       this.loading = true;
+    },
+    //图片改变
+    uploadChange(file, fileList) {
+      // let name = file.name;
+      // name = name.toLowerCase();
+      // let flag =
+      //   name.endsWith(".png") ||
+      //   name.endsWith(".jpeg") ||
+      //   name.endsWith(".jpg") ||
+      //   name.endsWith(".png") ||
+      //   name.endsWith(".bmp");
+      // if (!flag) {
+      //   return this.$message.error("选中的文件非图片类型");
+      // } else {
+      //   return console.log("图片");
+      // }
     },
     // 上传图片成功
     uploadSuccess(res, file) {

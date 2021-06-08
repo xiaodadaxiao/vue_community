@@ -30,6 +30,8 @@ import {
   Image,
   Breadcrumb,
   BreadcrumbItem,
+  MessageBox,
+  Badge,
 } from "element-ui";
 
 //注册
@@ -56,6 +58,9 @@ Vue.use(TabPane);
 Vue.use(Image);
 Vue.use(Breadcrumb);
 Vue.use(BreadcrumbItem);
+Vue.use(Badge);
 
 //全局挂载弹窗组件
 Vue.prototype.$message = Message;
+Vue.prototype.$confirm = MessageBox.confirm;
+Vue.prototype.$alert = MessageBox.alert;

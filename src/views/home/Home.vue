@@ -36,6 +36,7 @@ import HomeHot from "./homeComponents/HomeHot";
 
 
 export default {
+  name:"home",
   props: {},
   data() {
     return {

@@ -8,7 +8,7 @@
             返回首页
           </router-link>
         </h1>
-        <img v-lazy="'http://www.enappstore.com/public/images/404.png'" />
+        <img src="'http://www.enappstore.com/public/images/404.png'" />
       </el-col>
     </el-row>
   </div>

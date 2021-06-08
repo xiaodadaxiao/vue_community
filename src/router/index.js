@@ -23,7 +23,8 @@ const Article = () => import("views/article/Article");
 const UserInfo = () => import("views/userInfo/UserInfo");
 
 //保存路由path到本地的函数
-import { savePath } from "utils/routerRecord";
+import { savePath } from "./routerRecord";
+import checkLogin from "./checkLogin";
 
 const routes = [
   {
@@ -57,7 +58,6 @@ const routes = [
   {
     path: "/userInfo/:id",
     component: UserInfo,
-    //守卫
   },
 ];
 //滚动行为
@@ -81,13 +81,10 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   //保存路由到本地
   savePath(to.path);
-  if (
-    (to.path == "/publish" && !store.state.isLogin) ||
-    (to.path.indexOf("/userInfo/") >= 0 && !store.state.isLogin)
-  ) {
-    next("login");
-  } else {
-    next();
-  }
+  //检测登陆状态和token
+  checkLogin(to, from, next);
+});
+router.afterEach(() => {
+
 });
 export default router;
