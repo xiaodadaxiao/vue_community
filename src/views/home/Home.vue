@@ -43,9 +43,7 @@ export default {
       
     };
   },
-  created(){
 
-  },
   methods: {
 
     //点击发帖子

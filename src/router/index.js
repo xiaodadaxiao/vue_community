@@ -1,6 +1,5 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import store from "../store/index";
 
 Vue.use(VueRouter);
 //解决路由重复
@@ -25,6 +24,7 @@ const UserInfo = () => import("views/userInfo/UserInfo");
 //保存路由path到本地的函数
 import { savePath } from "./routerRecord";
 import checkLogin from "./checkLogin";
+import saveHomeFromPath from './saveHomeFromPath'
 
 const routes = [
   {
@@ -46,6 +46,9 @@ const routes = [
   {
     path: "/home",
     component: Home,
+    meta: {
+      fromPath: '666'
+    }
   },
   {
     path: "/publish",
@@ -81,6 +84,8 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   //保存路由到本地
   savePath(to.path);
+  //给Home组件保存from
+  saveHomeFromPath(to, from);
   //检测登陆状态和token
   checkLogin(to, from, next);
 });

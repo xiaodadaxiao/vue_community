@@ -2,8 +2,10 @@
   <div class="headerBox">
     <!-- 头像 -->
     <div>
-      <el-avatar class="userAvatar" shape="square"
-        src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png" />
+      <!-- <el-avatar class="userAvatar" shape="square"  fit="contain"
+        :src="userInfo.userPicture" /> -->
+      <img  alt="" class="userAvatar" :src="userInfo.userPicture">
+      <!-- <div class="userAvatar" :style=" {background: 'url('+userInfo.userPicture+')'}"  ></div> -->
     </div>
     <!-- 名字 邮箱 -->
     <div class="text">
@@ -32,8 +34,8 @@ import {getUser} from 'network/userInfo'
           if(res.Status!=="200"){
             return this.$message.error('请求用户数据失败');
           }
-          //console.log(res);
           this.userInfo= res.user;
+          this.userInfo.userPicture='http://81.70.10.158:8080'+this.userInfo.userPicture;
         })
       }
     },
@@ -48,6 +50,10 @@ import {getUser} from 'network/userInfo'
   .userAvatar {
     width: 150px;
     height: 150px;
+    object-fit: cover; 
+    object-position: center;
+    // background-size:50%;
+    // background-repeat:no-repeat;
   }
 
   .text {

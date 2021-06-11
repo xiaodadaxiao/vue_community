@@ -107,7 +107,9 @@ export default {
             //更改登录状态
             this.$store.commit("login", true);
             //保存用户信息
-            const {userName,userPicture,userEmail,id} =res.data
+            let {userName,userPicture,userEmail,id} =res.data
+            //修改图片路径
+            userPicture='http://81.70.10.158:8080'+userPicture;
             this.$store.commit("setUserInfo", {userName,userPicture,userEmail,id});
             //路由跳转
             goPath();

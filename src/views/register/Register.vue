@@ -138,11 +138,27 @@ export default {
         )
           .then((res) => {
             console.log(res);
-            if (res.status !== 200) {
-              return this.$message.error("注册失败");
+            switch(res.Status){
+              case '200' :
+                  this.$message.success("注册成功");
+                  this.$router.replace("/login");
+                  break;
+              case '401':
+                 this.$message.error("用户名格式错误");
+                 break;
+              case '402':
+                 this.$message.error("密码格式错误");
+                 break;
+              case '403':
+                this.$message.error("邮箱格式错误");
+                 break;
+              case '404':
+                this.$message.warning("用户名或邮箱已存在");
+                break;
+              default:
+                this.$message.error("发生未知错误");
             }
-            this.$message.success("注册成功");
-            this.$router.replace("/login");
+           
           })
           .catch((err) => {
             console.log(err);

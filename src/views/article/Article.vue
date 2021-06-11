@@ -103,7 +103,7 @@ export default {
 
 //图片
 .article-contain img {
-  width: 100%;
+  max-width: 100%;
 }
 //p标签
 .article-contain p {

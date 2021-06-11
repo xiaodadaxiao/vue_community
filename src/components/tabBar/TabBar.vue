@@ -10,11 +10,13 @@
           :sm="{ span: 14, offset: 2 }"
           :xs="0"
         >
+       
           <img
             class="biglogo"
             @click="goHome"
             src="https://sf3-scmcdn2-tos.pstatp.com/xitu_juejin_web/a7995ad8a14a816fe32960457099ae29.svg"
           />
+        
         </el-col>
         <el-col class="h100" :sm="0" :xs="24">
           <img
@@ -52,11 +54,12 @@
         <el-col :sm="6" :xs="12">
           <!-- 已登录 用户头像 -->
           <el-dropdown trigger="click" v-if="$store.state.isLogin">
-            <!-- 用户头像 -->
-            <el-avatar
+             <el-badge is-dot >
+            <img
               class="userImg"
               :src="$store.state.userInfo.userPicture"
             />
+             </el-badge>
             <!-- 用户菜单 -->
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item @click.native="goUserInfo"
@@ -197,10 +200,15 @@ export default {
 .smalllogo {
   cursor: pointer;
 }
-//用户头像
+
 .userImg {
   cursor: pointer;
-  margin-top: 10px;
+  margin-top: 3px;
+  height: 45px ;
+  width: 45px;
+  border-radius: 24px;
+  object-fit: cover; 
+  object-position: center;
 }
 //更多icon
 .mobile_more {

@@ -60,9 +60,17 @@
     },
     created() {
       //请求首页数据
-
       this.requestHomeList();
     },
+    activated(){
+      //console.log(this.$route);
+      if(this.$route.meta.fromPath.indexOf('/article')==-1){
+        //console.log('不是来自来自article');
+        this.pageNumber =1;
+        this.requestHomeList();
+      }
+    },
+    
     mounted() {
       //监听配合首页点击刷新数据
       this.$bus.$on("homeRefresh", () => {

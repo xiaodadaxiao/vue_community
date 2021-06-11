@@ -4,7 +4,8 @@
     <!-- 评论者信息（层主） -->
     <div class="floorInfo">
       <!-- 头像 -->
-      <el-avatar :size="50" :src="floorData.user.userPicture" />
+      <!-- <el-avatar :size="50" :src="'http://81.70.10.158:8080'+floorData.user.userPicture" /> -->
+      <img class="userImg" :size="50" :src="'http://81.70.10.158:8080'+floorData.user.userPicture" />
       <div>
         <span class="floorAuthor">{{ floorData.user.userName }}</span>
         <!-- <span>回复 : @<span class="byReplyAuthor">蜘蛛侠</span></span> -->
@@ -195,6 +196,16 @@ export default {
     color: @color-blue;
     font-weight: 600;
     cursor: pointer;
+  }
+  //头像
+  .userImg{
+    cursor: pointer;
+    margin: 5px 5px 0 0;
+    height: 45px ;
+    width: 45px;
+    border-radius: 24px;
+    object-fit: cover; 
+    object-position: center;
   }
   //被回复者
   .byReplyAuthor {

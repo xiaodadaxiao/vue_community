@@ -73,13 +73,20 @@
               <el-tab-pane label="头像设置">
                 <!-- 上传组件 -->
                 <el-upload
-                    accept=".jpg,.jpeg,.png,.bmp,.gif"
-                    :action="uploadUrl"
-                    name="img"
+                    ref="upload"
+                    accept=".jpg,.jpeg,.png,.bmp"
+                    :limit="1"
+                    :multiple="false"
+                    action="http://81.70.10.158:8080/user/postUserPic"
+                    :show-file-list="false"
+                    :headers="uploadHeader"
+                    name="pc1"
+                    :before-upload="beforeUpload"
+                    :on-success="uploadImgSuccess"
+                    :on-error="uploadImgError"
                     >
-                 <el-button plain>
-                   点击上传头像
-                  </el-button></el-upload>
+                    <el-button>点击上传图片</el-button>
+                  </el-upload>
               </el-tab-pane>
 
               <el-tab-pane label="密码设置">
@@ -116,8 +123,12 @@ import {getStr} from 'utils/filter'
         replyList:[],
         //是否含有未读通知
         isHaveNew:false,
-        //图片上传路径
-        uploadUrl:'http:www.baidu.com',
+        //图片上传请求头
+        uploadHeader:{
+          token:localStorage.getItem('token')
+        },
+        //选中的图片
+        imageUrl:'',
         //修改用户名
         newName:'',
         //用户密码
@@ -261,6 +272,8 @@ import {getStr} from 'utils/filter'
            this.$message.success('修改成功');
            localStorage.setItem('token',res.token);
             this.$router.go(0);
+         }else if(res.Status=="400"){
+            return this.$message.warning('用户名已存在');
          }
        }).catch(err=>{
          this.$message.error('修改失败！')
@@ -295,6 +308,34 @@ import {getStr} from 'utils/filter'
           this.$message.error('修改密码失败！')
           console.log(err);
         })
+      },
+      /* 图片上传相关 */
+      //图片上传前
+      beforeUpload(file) {
+        let types = ['image/jpeg', 'image/bmp', 'image/png',' image/jpeg'];
+        const isImage = types.includes(file.type);
+        const isLtSize = file.size / 1024 / 1024 < 3;
+        //console.log(isImage,isLtSize);
+        if (!isImage) {
+          this.$message.error('上传图片只能是 JPG、JPEG、BMP、PNG 格式!');
+          return false;
+        }
+        if (!isLtSize) {
+          this.$message.error('上传图片大小不能超过 3MB!');
+          return false;
+        }
+        return true;
+      },
+      uploadImgSuccess(res){
+        this.$message.success('上传头像成功')
+        this.$router.go()
+        console.log(res);
+      },
+      //上传图片失败
+      uploadImgError(error){
+        console.log(error);
+        this.$message.error('上传图片失败');
+         console.log(err);
       }
     },
   };
@@ -361,5 +402,18 @@ import {getStr} from 'utils/filter'
   }
   .passwordInput{
     margin: 5px ;
+  }
+  //上传添加icon
+    .avatar-uploader-icon {
+    font-size: 45px;
+    color: #8c939d;
+    width: 90px;
+    height: 90px;
+    line-height: 90px;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  .avatar-uploader-icon:hover{
+    border: 2px dashed #409EFF;
   }
 </style>

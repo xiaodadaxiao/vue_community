@@ -4,10 +4,12 @@
     <el-upload
       class="avatar-uploader"
       ref="elupload"
-      accept=".jpg,.jpeg,.png,.bmp,.gif"
-      :action="serverUrl"
+      accept=".jpg,.jpeg,.png,.bmp"
+      action="http://81.70.10.158:8080/user/upLoadPic"
+      
+      :multiple="false"
       :headers="header"
-      name="img"
+      name="pc1"
       :show-file-list="false"
       :on-success="uploadSuccess"
       :on-error="uploadError"
@@ -71,8 +73,7 @@ export default {
   data() {
     return {
       loading: false,
-      serverUrl: "https://sm.ms/api/v2/upload", // 上传的图片服务器地址,
-      header: { Authorization: "14ac5499cfdd2bb2859e4476d2e5b1d2bad079bf" }, // 图床token参数，写在这里
+      header: { token:localStorage.getItem('token') }, // 图床token参数，写在这里
       //编辑器内容
       content: "",
       //编辑器配置
@@ -94,9 +95,24 @@ export default {
       this.$emit("addMessage", this.content);
     },
     // 上传图片前
-    beforeUpload(res, file) {
+    beforeUpload(file) {
       //显示加载
       this.loading = true;
+      let types = ['image/jpeg', 'image/bmp', 'image/png',' image/jpeg'];
+        const isImage = types.includes(file.type);
+        const isLtSize = file.size / 1024 / 1024 < 3;
+        //console.log(isImage,isLtSize);
+        if (!isImage) {
+          this.loading=false
+          this.$message.error('上传图片只能是 JPG、JPEG、BMP、PNG 格式!');
+          return false;
+        }
+        if (!isLtSize) {
+          this.loading=false
+          this.$message.error('上传图片大小不能超过 3MB!');
+          return false;
+        }
+        return true;
     },
     //图片改变
     uploadChange(file, fileList) {
@@ -120,12 +136,12 @@ export default {
       // 获取富文本组件实例
       let quill = this.$refs.myQuillEditor.quill;
       // 如果上传成功
-      if (res.code === "200" && res.info !== null) {
+      if (res.Status === "200" ) {
         // 获取光标所在位置
         // let length = quill.getSelection().index;
         let length = quill.selection.savedRange.index;
         // 插入图片  res.info为服务器返回的图片地址
-        quill.insertEmbed(length, "image", res.info);
+        quill.insertEmbed(length, "image", "http://81.70.10.158:8080"+res.url);
         // 调整光标到最后
         quill.setSelection(length + 1);
       } else {

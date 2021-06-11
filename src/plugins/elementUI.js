@@ -24,7 +24,6 @@ import {
   Pagination,
   Upload,
   Card,
-  Avatar,
   Tabs,
   TabPane,
   Image,
@@ -52,7 +51,6 @@ Vue.use(DropdownItem);
 Vue.use(Pagination);
 Vue.use(Upload);
 Vue.use(Card);
-Vue.use(Avatar);
 Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Image);

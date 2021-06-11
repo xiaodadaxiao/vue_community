@@ -26,6 +26,8 @@ export default async function checkLogin(to, from, next) {
         let userRes = await getUser();
         if (userRes.Status == "200") {
             //保存用户信息到vuex
+            //修改图片路径
+            userRes.user.userPicture = 'http://81.70.10.158:8080' + userRes.user.userPicture;
             store.commit('setUserInfo', userRes.user);
         } else {
             //请求用户信息失败
